@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.treinamento.sales.dto.UserDTO;
 import com.treinamento.sales.utils.ToUpperCaseTrim;
 
 import jakarta.persistence.Column;
@@ -50,6 +51,13 @@ public class User implements Serializable {
 		this.phone = ToUpperCaseTrim.setText(phone);
 		this.password = password;
 	}
+	
+	public User(UserDTO userDTO) {
+		this.name = ToUpperCaseTrim.setText(userDTO.name());
+		this.email = ToUpperCaseTrim.setText(userDTO.email());
+		this.phone = ToUpperCaseTrim.setText(userDTO.phone());
+		this.password = userDTO.password();
+	  }
 
 	public Long getId() {
 		return id;
@@ -83,6 +91,7 @@ public class User implements Serializable {
 		this.phone = ToUpperCaseTrim.setText(phone);
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}

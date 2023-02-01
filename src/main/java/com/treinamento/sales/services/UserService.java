@@ -9,11 +9,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.treinamento.sales.dto.UserDTO;
 import com.treinamento.sales.entities.User;
 import com.treinamento.sales.repositories.UserRepository;
 import com.treinamento.sales.services.exceptions.DatabaseException;
 import com.treinamento.sales.services.exceptions.ResourceNotFoundException;
 import com.treinamento.sales.utils.PasswordEncrypt;
+import com.treinamento.sales.utils.ToUpperCaseTrim;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -33,15 +35,17 @@ public class UserService {
 	}
 	
 	
-	public User insert(User user) {
-		PasswordEncoder encoder = new PasswordEncrypt().getPasswordEncoder();
+	public User insert(UserDTO userDTO) {
 		
-		if (repository.findByEmail(user.getEmail()).isPresent()) {
+		if (repository.findByEmail(ToUpperCaseTrim.setText(userDTO.email())).isPresent()) {
 			throw new DatabaseException("Email already registered");
 		}
 
+		User user = new User(userDTO);
+		PasswordEncoder encoder = new PasswordEncrypt().getPasswordEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
-		return repository.save(user);		
+		return repository.save(user);
+		
 	}
 	
 	public void delete(Long id) {
@@ -69,5 +73,5 @@ public class UserService {
 		entity.setPhone(user.getPhone());		
 	}
 	
-	
+		
 }

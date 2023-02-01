@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.treinamento.sales.dto.UserDTO;
 import com.treinamento.sales.entities.User;
 import com.treinamento.sales.services.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -38,14 +41,14 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> insert(@RequestBody User user) {
-		user = service.insert(user);
+	public ResponseEntity<User> insert(@RequestBody @Valid UserDTO req) {
+		User userResponse = service.insert(req);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
-				.buildAndExpand(user.getId())
+				.buildAndExpand(userResponse.getId())
 				.toUri();
-		return ResponseEntity.created(uri).body(user);
+		return ResponseEntity.created(uri).body(userResponse);
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -55,9 +58,9 @@ public class UserController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
-		user = service.update(id, user);
-		return ResponseEntity.ok().body(user);
+	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User req) {
+		req = service.update(id, req);
+		return ResponseEntity.ok().body(req);
 	}
 	
 }
