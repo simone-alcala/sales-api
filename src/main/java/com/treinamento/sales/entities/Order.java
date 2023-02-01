@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.treinamento.sales.entities.enums.OrderStatus;
+import com.treinamento.sales.utils.ToUpperCaseTrim;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -80,7 +81,7 @@ public class Order implements Serializable{
 	}	
 	
 	public OrderStatus getOrderStatus() {
-		return OrderStatus.valueOf(orderStatus);
+		return OrderStatus.valueOf(ToUpperCaseTrim.setText(orderStatus));
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {

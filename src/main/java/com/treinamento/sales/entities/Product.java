@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.treinamento.sales.utils.ToUpperCaseTrim;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,8 +47,8 @@ public class Product implements Serializable {
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.description = description;
+		this.name = ToUpperCaseTrim.setText(name);
+		this.description = ToUpperCaseTrim.setText(description);
 		this.price = price;
 		this.imgUrl = imgUrl;
 	}
@@ -85,11 +86,11 @@ public class Product implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = ToUpperCaseTrim.setText(name);
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.description = ToUpperCaseTrim.setText(description);
 	}
 
 	public void setPrice(Double price) {

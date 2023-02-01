@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.treinamento.sales.utils.ToUpperCaseTrim;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,9 +45,9 @@ public class User implements Serializable {
 	public User(Long id, String name, String email, String phone, String password) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.phone = phone;
+		this.name = ToUpperCaseTrim.setText(name);
+		this.email = ToUpperCaseTrim.setText(email);
+		this.phone = ToUpperCaseTrim.setText(phone);
 		this.password = password;
 	}
 
@@ -63,7 +64,7 @@ public class User implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = ToUpperCaseTrim.setText(name);
 	}
 
 	public String getEmail() {
@@ -71,7 +72,7 @@ public class User implements Serializable {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = ToUpperCaseTrim.setText(email);
 	}
 
 	public String getPhone() {
@@ -79,7 +80,7 @@ public class User implements Serializable {
 	}
 
 	public void setPhone(String phone) {
-		this.phone = phone;
+		this.phone = ToUpperCaseTrim.setText(phone);
 	}
 
 	public String getPassword() {

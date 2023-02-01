@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.treinamento.sales.utils.ToUpperCaseTrim;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class Category implements Serializable{
 	public Category(Long id, String name) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.name = ToUpperCaseTrim.setText(name);
 	}
 
 	public Long getId() {
@@ -50,7 +51,7 @@ public class Category implements Serializable{
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = ToUpperCaseTrim.setText(name);
 	}
 	
 	public Set<Product> getProducts() {
