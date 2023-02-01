@@ -35,8 +35,13 @@ public class UserService {
 	
 	public User insert(User user) {
 		PasswordEncoder encoder = new PasswordEncrypt().getPasswordEncoder();
+		
+		if (repository.findByEmail(user.getEmail()).isPresent()) {
+			throw new DatabaseException("Email already registered");
+		}
+
 		user.setPassword(encoder.encode(user.getPassword()));
-		return repository.save(user);
+		return repository.save(user);		
 	}
 	
 	public void delete(Long id) {
@@ -61,7 +66,6 @@ public class UserService {
 
 	private void updateData(User entity, User user) {
 		entity.setName(user.getName());
-		entity.setEmail(user.getEmail());
 		entity.setPhone(user.getPhone());		
 	}
 	
