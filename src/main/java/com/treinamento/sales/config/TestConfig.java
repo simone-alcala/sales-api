@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.treinamento.sales.entities.Category;
 import com.treinamento.sales.entities.Order;
@@ -20,6 +21,7 @@ import com.treinamento.sales.repositories.OrderItemRepository;
 import com.treinamento.sales.repositories.OrderRepository;
 import com.treinamento.sales.repositories.ProductRepository;
 import com.treinamento.sales.repositories.UserRepository;
+import com.treinamento.sales.utils.PasswordEncrypt;
 
 @Configuration
 @Profile("test")
@@ -65,9 +67,11 @@ public class TestConfig implements CommandLineRunner {
 		
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 		
-		User u1 = new User(null, "User One", "user.1@gmail.com", "19987654321", "topSecret");
-		User u2 = new User(null, "User Two", "user.2@gmail.com", "19123456789", "secret");
+		PasswordEncoder encoder = new PasswordEncrypt().getPasswordEncoder();
 		
+		User u1 = new User(null, "User One", "user.1@gmail.com", "19987654321", encoder.encode("topSecret"));
+		User u2 = new User(null, "User Two", "user.2@gmail.com", "19123456789", encoder.encode("topSecret"));
+			
 		userRepository.saveAll(Arrays.asList(u1, u2));
 		
 		Order o1 = new Order(null, Instant.parse("2023-01-26T11:59:00Z"), OrderStatus.PAID, u1);

@@ -6,12 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.treinamento.sales.entities.User;
 import com.treinamento.sales.repositories.UserRepository;
 import com.treinamento.sales.services.exceptions.DatabaseException;
 import com.treinamento.sales.services.exceptions.ResourceNotFoundException;
+import com.treinamento.sales.utils.PasswordEncrypt;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -30,7 +32,10 @@ public class UserService {
 		return user.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
+	
 	public User insert(User user) {
+		PasswordEncoder encoder = new PasswordEncrypt().getPasswordEncoder();
+		user.setPassword(encoder.encode(user.getPassword()));
 		return repository.save(user);
 	}
 	
