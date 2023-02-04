@@ -16,6 +16,7 @@ import com.treinamento.sales.entities.Payment;
 import com.treinamento.sales.entities.Product;
 import com.treinamento.sales.entities.User;
 import com.treinamento.sales.entities.enums.OrderStatus;
+import com.treinamento.sales.entities.enums.Role;
 import com.treinamento.sales.repositories.CategoryRepository;
 import com.treinamento.sales.repositories.OrderItemRepository;
 import com.treinamento.sales.repositories.OrderRepository;
@@ -69,8 +70,8 @@ public class TestConfig implements CommandLineRunner {
 		
 		PasswordEncoder encoder = new PasswordEncrypt().getPasswordEncoder();
 		
-		User u1 = new User(null, "User One", "user.1@gmail.com", "19987654321", encoder.encode("topSecret"));
-		User u2 = new User(null, "User Two", "user.2@gmail.com", "19123456789", encoder.encode("topSecret"));
+		User u1 = new User(null, "User One", "user.1@gmail.com", "19987654321", encoder.encode("topSecret"), Role.ADMIN);
+		User u2 = new User(null, "User Two", "user.2@gmail.com", "19123456789", encoder.encode("topSecret"), Role.USER);
 			
 		userRepository.saveAll(Arrays.asList(u1, u2));
 		
